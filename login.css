@@ -9,23 +9,27 @@ header
 {
     margin-top: 5%;
     font-size: x-large;
+    margin-bottom: 5%;
+    position: absolute center;
 }
 
-body 
+
+#username, #password
 {
-    background-image: url("./photos/loginBackground.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    margin-left: 7px;
+    text-align: left;
+    font-size: smaller;
 }
 
-form
+a
 {
-    width: fit-content;
-    padding: 20px;
-    border: 0px;
-    margin: 0 auto;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
-} 
+    color: white;
+    text-shadow: #262626 0.1em 0.1em 0.2em;
+    font-size: x-small;
+}
+
+
+
+.prova{
+    color: red;
+}
