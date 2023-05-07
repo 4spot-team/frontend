@@ -1,22 +1,21 @@
 *
-{
-    
+{ 
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-align: center;
     align-content: center;
     font-weight: 400;  
 }
 
-header
+.titoloPagina
 {
     padding-top: 30px;
-    font-size: x-large;
+    font-size: large;
     margin-bottom: 5%;
     color: rgb(43, 43, 43);
     font-weight: 400;  
 }
 
-#username, #password
+#username, #password, #email
 {
     margin-left: 7px;
     text-align: left;
@@ -35,27 +34,33 @@ body, html{
     height: 100%;
 }
 
-
-
 .submitButton
 {
     background-color: rgba(255, 255, 255, 0.5);
     border: 0px;
-    border-radius: 10%;
+    border-radius: 5px;
     box-shadow: #4d4d4d 0.1em 0.1em 0.2em;
     font-size: smaller;
 }
 
-.authForm
+.authForm  
 {
     width: fit-content;
-    padding: 7%;
+    padding: 3%;
     border: 0px;
     margin: 0 auto;
     font-size: small;
-    border-radius: 10%;
     
 } 
+
+input[type=text], input[type=password]
+{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 5px;
+    border: 1px;
+    box-shadoW: #4d4d4d 0.1em 0.1em 0.2em;
+    background-color: rgba(255, 255, 255, 0.5);
+}
 
 .decorativeBox
 {
@@ -76,6 +81,14 @@ background: linear-gradient(180deg, rgba(255,255,255,0.8464635854341737) 0%, rgb
 {
     margin-top: 40px;
 }
+
+.logoBox
+{
+    background-color: #e4e4e4;
+    padding-bottom: 20px;
+
+}
+
 /* Login CSS */
 
 .loginBody 
@@ -87,4 +100,32 @@ background: linear-gradient(180deg, rgba(255,255,255,0.8464635854341737) 0%, rgb
     background-size: cover;
 }
 
+/* Signup CSS */
 
+.signupBody 
+{
+    height: 100%;
+    background-image: url("./photos/signupBackground.jpg") ;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+.informativaPrivacy
+{
+    font-size: xx-small;
+}
+
+/* Privacy Policy CSS */
+
+.privacyBody
+{
+    text-align: left;
+    margin: 50px;
+}
+
+li.privacyBody
+{
+    text-align: left;
+    margin: 0px;
+}

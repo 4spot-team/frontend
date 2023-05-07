@@ -8,62 +8,59 @@
         <title> 4Spot Login </title>
     </head>
     
-
-    
-    
     <body>
         <div class="loginBody">
         
-        <img class="logo" src="./photos/logo.png" alt="Logo 4Spot"> 
+            <img class="logo" src="./photos/logo.png" alt="Logo 4Spot"> 
        
-        <div class="decorativeBox">
+            <div class="decorativeBox">
             
-        <header> Accedi al tuo account </header>  
+                <p class="titoloPagina"> Accedi al tuo account </p>  
         
-        <form class="authForm"> <!-- form action = "?????" method = "post"--> <!-- Form login -->
-            <p>
-                <label for = "username"> Username </label> <br>
-                <input type = "text" id = "username" name = "username" placeholder = "Username" required> <br>
-            </p>
+                <form class="authForm"> <!-- form action = "?????" method = "post"--> <!-- Form login -->
+                    <p>
+                        <label for = "username"> Username </label> <br>
+                        <input type = "text" id = "username" name = "username" placeholder = "Username" required> <br>
+                    </p>
 
-            <p>
-                <label for = "password"> Password </label> <br>
-                <input type = "password" id = "password" name = "password" placeholder = "Password" required> <br>
-                <i class="bi bi-eye-slash" id="togglePassword"></i>
-            </p>
+                    <p>
+                        <label for = "password"> Password </label> <br>
+                        <input type = "password" id = "password" name = "password" placeholder = "Password" required> <br>
+                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                    </p>
 
-            <button type="submit" class="submitButton"> Accedi </button>
-        </form> 
+                    <input type="submit" class="submitButton" value="Accedi">
+                </form> 
 
-        <p>
-            <a href="passwordrecover.html">Password dimenticata?</a>
-        </p>
-        <p>
-
-            <a href="signup.html">Non hai ancora un account? Iscriviti.</a>
-        </p>
-        </div>
-        </div>
-
-        <script> <!-- Script per mostrare la password -->
-            const togglePassword = document.querySelector("#togglePassword");
-            const password = document.querySelector("#password");
-    
-            togglePassword.addEventListener("click", function () {
-                // toggle the type attribute
-                const type = password.getAttribute("type") === "password" ? "text" : "password";
-                password.setAttribute("type", type);
+                <p>
+                    <a href="passwordrecover.html">Password dimenticata?</a>
+                </p>
                 
-                // toggle the icon
-                this.classList.toggle("bi-eye");
-            });
-    
-            // prevent form submit
-            const form = document.querySelector("form");
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-            });
-        </script>
+                <p>
+                    <a href="signup.html">Non hai ancora un account? Iscriviti.</a>
+                </p>
+            </div>
+        </div>
+
     </body>
-   
+    
+    <script> <!-- Script per mostrare la password -->
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
+
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("bi-eye");
+        });
+
+        // prevent form submit
+        const form = document.querySelector("form");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+        });
+    </script>
 </html>

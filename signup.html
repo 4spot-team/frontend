@@ -1,64 +1,76 @@
 <!DOCTYPE html> 
 
 <html>
-    <title> 4Spot Registrazione </title>
-
-    <header> Registrati per iniziare a condividere i tuoi eventi. </header>
+    <head>
+        <link rel="stylesheet" href="site.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> 4Spot Login </title>
+    </head>
 
     <body>
-        <form> <!-- form action = "?????" method = "post"--> <!-- Form login -->
-            <p>
-                <label for = "email"> Email </label>
-                <input type = "text" id = "email" name = "email" placeholder = "Email" required> <br>
-            </p>
+       
+        <div class= "signupBody">
+        
+            <img class="logo" src="./photos/logo.png" alt="Logo 4Spot"> 
 
-            <p>
-                <label for = "username"> Username </label>
-                <input type = "text" id = "username" name = "username" placeholder = "Username" required> <br>
-            </p>
+        
+            <div class="decorativeBox"> <!-- Blocco bianco decorativo sotto il form -->
 
-            <p>
-                <label for = "password"> Password </label>
-                <input type = "password" id = "password" name = "password" placeholder = "Password" required> <br>
-                <i class="bi bi-eye-slash" id="togglePassword"></i>
-            </p>
+                <p class="titoloPagina"> Registrati per iniziare a condividere i tuoi eventi. </p>
 
-            <a href="homepage.html">
-                <input type="submit"/>
-            </a>
-        </form> 
+                <form class="authForm"> <!-- form action = "?????" method = "post"--> <!-- Form login -->
+                    <p>
+                        <label for = "email"> Email </label> <br>
+                        <input type = "text" id = "email" name = "email" placeholder = "Email" required> <br>
+                    </p>
 
-        <p>
-            Iscrivendoti, accetti le nostre <a href="privacy.html">Condizioni</a>. Scopri in che modo raccogliamo,
-            usiamo e condividiamo i tuoi dati consultando la nostra Informativa sulla privacy 
-            e la nostra Informativa sui cookie.
-        </p>
-        <p>
-            <a href="login.html"> Hai già un account? Login </a>
-        </p>
+                    <p>
+                        <label for = "username"> Username </label> <br>
+                        <input type = "text" id = "username" name = "username" placeholder = "Username" required> <br>
+                    </p>
 
+                    <p>
+                        <label for = "password"> Password </label> <br>
+                        <input type = "password" id = "password" name = "password" placeholder = "Password" required> <br>
+                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                    </p>
 
-        <script> <!-- Script per mostrare la password -->
-            const togglePassword = document.querySelector("#togglePassword");
-            const password = document.querySelector("#password");
-    
-            togglePassword.addEventListener("click", function () {
-                // toggle the type attribute
-                const type = password.getAttribute("type") === "password" ? "text" : "password";
-                password.setAttribute("type", type);
+                    <input type="submit" class="submitButton" value="Registrati">
+
+                <p class="informativaPrivacy">
+                    Iscrivendoti, accetti le nostre <a href="privacy.html">Condizioni</a>. Scopri in che modo raccogliamo,
+                    usiamo e condividiamo i tuoi dati consultando la nostra Informativa sulla privacy 
+                    e la nostra Informativa sui cookie.
+                </p>
                 
-                // toggle the icon
-                this.classList.toggle("bi-eye");
-            });
-    
-            // prevent form submit
-            const form = document.querySelector("form");
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-            });
-        </script>
+                <p>
+                    <a href="login.html"> Hai già un account? Login </a>
+                </p>
+
+            </div> <!-- Fine decorative box -->
+        </div> <!-- Fine body -->
     </body>
 
+    
+    <script> <!-- Script per mostrare la password -->
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
 
-   
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("bi-eye");
+        });
+
+        // prevent form submit
+        const form = document.querySelector("form");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+        });
+    </script>
+
 </html>
