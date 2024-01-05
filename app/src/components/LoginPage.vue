@@ -21,11 +21,11 @@
         </form> 
 
         <p>
-            <a href="passwordrecover.html">Password dimenticata?</a>
+            <a href="passwordrecover">Password dimenticata?</a>
         </p>
         
         <p>
-            <a href="signup.html">Non hai ancora un account? Iscriviti.</a>
+            <a href="signup">Non hai ancora un account? Iscriviti.</a>
         </p>
     </div>
 </template>

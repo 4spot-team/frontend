@@ -26,13 +26,13 @@
         </form>
 
         <p class="informativaPrivacy">
-            Iscrivendoti, accetti le nostre <a href="privacy.html">Condizioni</a>. Scopri in che modo raccogliamo,
+            Iscrivendoti, accetti le nostre <a href="policies">Condizioni</a>. Scopri in che modo raccogliamo,
             usiamo e condividiamo i tuoi dati consultando la nostra Informativa sulla privacy 
             e la nostra Informativa sui cookie.
         </p>
         
     ls      <p>
-            <a href="login.html"> Hai già un account? Login </a>
+            <a href="login"> Hai già un account? Login </a>
         </p>
 
     </div> <!-- Fine decorative box -->

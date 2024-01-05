@@ -1,12 +1,8 @@
 <template>
-    <component :is="selectedComponent"></component>
+    <router-view></router-view>
 </template>
 
 <script>
-import LoginPage from './components/LoginPage.vue'
-import SignupPage from './components/SignupPage.vue'
-import PrivacyPage from './components/PrivacyPage.vue'
-
 export default({
     name:'App',
     data() {
@@ -14,14 +10,14 @@ export default({
             /* FOR DEBUG */
             //selectedComponent: 'LoginPage',
             //selectedComponent: 'SignupPage',
-            selectedComponent: 'PrivacyPage',
+            //selectedComponent: 'PrivacyPage',
         }
     },
-    components: {
+    /* components: {
         LoginPage,
         SignupPage,
         PrivacyPage
-    }
+    } */
 });
 </script>
 
