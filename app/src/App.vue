@@ -12,12 +12,7 @@ export default({
             //selectedComponent: 'SignupPage',
             //selectedComponent: 'PrivacyPage',
         }
-    },
-    /* components: {
-        LoginPage,
-        SignupPage,
-        PrivacyPage
-    } */
+    }
 });
 </script>
 
