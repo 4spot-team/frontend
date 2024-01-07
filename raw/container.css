@@ -3,10 +3,11 @@ header
     background-color: rgb(198, 198, 198);
     margin-top: 0;
     margin-left: 0;
-    height: 20%;
+    height: 15%;
     width: 100%;
     position: fixed;
     text-align: center;
+    /* box-shadow: 0 5px rgb(154, 154, 154); */
 }
 
 #container
@@ -30,7 +31,7 @@ header
 #usable
 {
     position: fixed;
-    height: 80%;
+    height: 85%;
     width: 100%;
     bottom:0;
 }
@@ -60,6 +61,7 @@ header
     list-style-type: none;
     height: 25%;
     text-align: left;
+    font-size: 20px;
     margin-top: 30px;
     padding-left: 0px;
 }
@@ -73,3 +75,8 @@ header
     border-bottom: 1px solid white;
 }
 
+.listImg
+{
+    width: 30px;
+    vertical-align: middle;
+}
