@@ -1,0 +1,23 @@
+.page-button
+{
+    padding: 30px 30px;
+    margin: 0 0;
+    width: auto;
+    border-bottom: 1px solid white;
+}
+
+.page-button:hover 
+{
+    background-color: rgb(97, 97, 97);
+}
+
+.page-button:hover .listImg
+{
+    width: 35px;
+}
+
+.listImg
+{
+    width: 30px;
+    vertical-align: middle;
+}
