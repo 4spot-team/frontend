@@ -1,0 +1,116 @@
+<template>
+    <div id="event">
+        <div id="event-header">
+                Concerto Autunno 2022
+        </div>
+
+        <div id="img">
+            <img src="../assets/concert.jpeg" id="main-img">
+        </div>  
+
+        <div id="info-1">
+            <div id="tags">
+                <ul class="tags-list">
+                    <li>#concerto</li>
+                    <li>#musica</li>
+                    <li>#live</li>
+                </ul>
+            </div>
+            <br>
+            <div id="interact">
+                <ul class="interact-list">
+                    <li>
+                        <img src="../assets/profile-user.png" class="listImg">
+                        &ensp;
+                        @comunedirovereto
+                    </li>
+                    <li>
+                        <ul class="star-list">
+                            <li>
+                                <img src="../assets/star.png" class="star">
+                            </li>
+                            <li>
+                                <img src="../assets/star.png" class="star">
+                            </li>
+                            <li>
+                                <img src="../assets/star.png" class="star">
+                            </li>
+                            <li>
+                                <img src="../assets/star.png" class="star">
+                            </li>
+                            <li>
+                                <img src="../assets/star.png" class="star">
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <button id="subscribe-btn">
+                            Iscriviti
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="info-2">
+            <div id="info-2-icons">
+                <ul class="icons-list">
+                    <li>
+                        <img src="../assets/location.png" class="listImgSmall">
+                        &ensp;
+                        Rovereto
+                    </li>
+                    <li>
+                        <img src="../assets/date.png" class="listImgSmall">
+                        &ensp;
+                        10/10/2022
+                    </li>
+                    <li>
+                        <img src="../assets/ticket.png" class="listImgSmall">
+                        &ensp;
+                        €15
+                    </li>
+                </ul>
+            </div>
+            <div id="description">
+                <br>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+
+        <div id="comments">
+            <div id="comments-header">
+                <p> Commenti </p>
+            </div>
+            
+            <div id="comments-list-div">
+                <!-- TODO: Insert coments -->
+                <p> Non ci sono ancora commenti a questo evento </p>    
+            </div>
+
+            <div id="comments-input-div">   
+                <input class="comment-input" placeholder="Lascia un commento">
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+
+export default {
+    methods: { 
+        handleScroll() {
+            console.log('Better no');
+        }
+    }
+}
+
+</script>
+
+<style scoped>
+@import '../styles/site2.css';
+@import '../styles/event.css';
+</style>

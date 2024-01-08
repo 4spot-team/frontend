@@ -1,0 +1,167 @@
+#event-header
+{
+    position: relative;
+    padding: 40px 0;
+    font-size: 30px;
+    text-align: center;
+    background-color: white;
+    color: black;
+    /* text-shadow: 1px 1px 1px rgb(114, 114, 114); */
+}
+
+ul
+{   
+    list-style-type: none;
+}
+
+#event
+{
+    width: 100%;
+    background-color: white;
+    font-size: 20px;
+    padding-bottom: 100px;
+    margin-bottom: 50px;
+    border-bottom: dotted rgb(192, 192, 192);
+    color: rgb(87, 87, 87);
+}
+
+#main-img
+{
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+}
+
+#tags
+{   
+    color: blue;
+}
+
+#interact
+{
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-left: 0px;
+}
+
+#subscribe-btn
+{
+    background-color: rgb(197, 197, 197);
+    height: 50px;
+    width: 60%;
+    border: none;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 25px;
+    box-shadow: 0 3px 2px 2px rgb(154, 154, 154);
+}
+
+#info-1
+{
+    margin-bottom: 125px;
+}
+
+#info-2
+{
+    margin-bottom: 100px;
+}
+
+#description
+{
+    margin: 10px 30px;
+}
+
+#comments-header
+{
+    width: auto;
+    background-color: rgb(233, 233, 233);
+    padding: 1px 30px;
+    font-size: 25px;
+}
+
+#comments-list-div
+{
+    padding: 0 22px;   
+}
+
+#comments-input-div
+{
+    padding: 0 15px;
+    align-items: center;
+}
+
+.tags-list
+{
+    padding: 0 10%; 
+}
+
+.tags-list li
+{
+    float: left;
+    padding-left: 10px;
+    margin: auto;
+}
+
+.interact-list
+{
+    padding-left: 0px;
+    margin-right: 0px;
+}
+.interact-list li
+{
+    width: 33%;
+    float: left;
+    text-align: center;
+}
+
+.star
+{
+    width: 18px;
+}
+
+.star-list
+{
+    padding: 16px 15%;
+}
+
+.star-list li
+{
+    width: 20%;
+    float: left;
+}
+
+.icons-list
+{
+    color: rgb(142, 142, 142);
+}
+
+.icons-list li
+{
+    width: 20%;
+    float: left;
+    text-align: left;
+}
+
+.listImg
+{
+    width: 50px;
+    vertical-align: middle;
+}
+
+.listImgSmall
+{
+    width: 25px;
+}
+
+.comment-input
+{
+    color: inherit;
+    font-size: 22px;
+    width: 96%;
+    margin: 10px 0;
+    padding: 10px 2%;
+    border: 5px;
+    box-shadow: 0 3px 2px 2px rgb(197, 197, 197);
+    border-radius: 20px;
+}

@@ -1,5 +1,7 @@
 <template>
-    <img class="logo" src="../assets/logo.png" alt="Logo 4Spot"> 
+    <div id="intro-header">
+        <img class="logo" src="../assets/logo.png" alt="Logo 4Spot"> 
+    </div>
 
     <div class="decorativeBox"> <!-- Blocco bianco decorativo sotto il form -->
 
@@ -31,7 +33,7 @@
             e la nostra Informativa sui cookie.
         </p>
         
-    ls      <p>
+        <p>
             <a href="login"> Hai già un account? Login </a>
         </p>
 
@@ -55,7 +57,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import '../styles/site.css';
+@import '../styles/intro.css';
 
 .informativaPrivacy
 {

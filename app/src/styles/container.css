@@ -1,0 +1,83 @@
+#container-header
+{
+    background-color: rgb(198, 198, 198);
+    margin-top: 0;
+    margin-left: 0;
+    height: 15%;
+    width: 100%;
+    position: fixed;
+    text-align: center;
+    /* box-shadow: 0 5px rgb(154, 154, 154); */
+}
+
+#container
+{
+    height: 100vh;
+    width: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#headLogo
+{
+    position: absolute;
+    top: 10%;
+    right: 45%;
+}
+
+#usable
+{
+    position: fixed;
+    height: 85%;
+    width: 100%;
+    bottom:0;
+}
+
+#nav
+{
+    background-color: rgb(68, 68, 68);
+    color: white;
+    position: absolute;
+    height: 100%;
+    width: 25%;
+    left: 0;
+    bottom: 0;
+}
+
+#component
+{   
+    position: absolute;
+    width: 75%;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    overflow-y: scroll;
+}
+
+.navList
+{
+    list-style-type: none;
+    height: 25%;
+    text-align: left;
+    font-size: 20px;
+    margin-top: 30px;
+    padding-left: 0px;
+}
+
+.navList li
+{
+    padding-left: 30px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    width:100%;
+    border-bottom: 1px solid white;
+}
+
+.listImg
+{
+    width: 30px;
+    vertical-align: middle;
+}
