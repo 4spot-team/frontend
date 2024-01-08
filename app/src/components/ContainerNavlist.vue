@@ -13,16 +13,68 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 import NavlistButton from './NavlistButton.vue';
 
-const btnList = ref([
-    {route: '/profile', imgPath: '/assets/profile-user.png', title: 'Profilo'},
-    {route: '/explore', imgPath: '/assets/location.png', title: 'Esplora'},
-    {route: '/messages', imgPath: '/assets/send.png', title: 'Messaggi'},
-    {route: '/notifications', imgPath: '/assets/bell.png', title: 'Notifiche'}
-])
+const btnList = ref([]);
+
+onMounted(() => {
+    const Home = {route: '/home', imgPath: '/assets/home.png', title: 'Home'}
+    const Profile = {route: '/profile', imgPath: '/assets/profile-user.png', title: 'Profilo'};
+    const Explore = {route: '/explore', imgPath: '/assets/location.png', title: 'Esplora'};
+    const Messages = {route: '/messages', imgPath: '/assets/send.png', title: 'Messaggi'};
+    const Notifications = {route: '/notifications', imgPath: '/assets/bell.png', title: 'Notifiche'};
+
+    const route = window.location.href.split('/')[3];
+
+    switch (route) {
+        case '':
+        case 'home':
+            btnList.value = [
+                Profile,
+                Explore,
+                Messages,
+                Notifications
+            ];     
+            break;
+        case 'profile':
+            btnList.value = [
+                Home,
+                Explore,
+                Messages,
+                Notifications
+            ];
+            break;
+        case 'explore':
+            btnList.value = [
+                Home,
+                Profile,
+                Messages,
+                Notifications
+            ];
+            break;
+        case 'messages':
+            btnList.value = [
+                Home,
+                Profile,
+                Explore,
+                Notifications
+            ];
+            break;
+        case 'notifications':
+            btnList.value = [
+                Home,
+                Profile,
+                Explore,
+                Messages
+            ];
+            break;
+        default:
+            this.$router.push({ path: '/' });
+            break;
+    }
+});
 </script>
 
 <style scoped>

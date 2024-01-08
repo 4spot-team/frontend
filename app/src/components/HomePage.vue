@@ -19,10 +19,6 @@
     import EventPage from './EventPage.vue';
     import ContainerHeader from './ContainerHeader.vue';
     import ContainerNavlist from './ContainerNavlist.vue';
-/*     import { ref } from 'vue'; */
-
-    /* const events = ref([EventPage]); */
-
 </script>
 
 <script>

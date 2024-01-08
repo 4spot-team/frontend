@@ -6,8 +6,10 @@ import LoginPage from './components/LoginPage.vue'
 import SignupPage from './components/SignupPage.vue'
 import PrivacyPage from './components/PrivacyPage.vue'
 import HomePage from './components/HomePage.vue'
-import ContainerHeader from './components/ContainerHeader.vue'
-import ContainerNavlist from './components/ContainerNavlist.vue'
+import ProfilePage from './components/ProfilePage.vue'
+import ExplorePage from './components/ExplorePage.vue'
+import MessagesPage from './components/MessagesPage.vue'
+import NotificationsPage from './components/NotificationsPage.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,8 +19,10 @@ const router = createRouter({
         { path: '/login', component: LoginPage},
         { path: '/signup', component: SignupPage},
         { path: '/policies', component: PrivacyPage },
-        { path: '/header', component: ContainerHeader },
-        { path: '/nav', component: ContainerNavlist }
+        { path: '/profile', component: ProfilePage },
+        { path: '/explore', component: ExplorePage},
+        { path: '/messages', component: MessagesPage},
+        { path: '/notifications', component: NotificationsPage}
     ]
 });
 
