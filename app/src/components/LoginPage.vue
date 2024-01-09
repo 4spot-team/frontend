@@ -20,7 +20,7 @@
                     <i class="bi bi-eye-slash" id="togglePassword"></i>
                 </p>
 
-                <input @click="submit" type="submit" class="submitButton" value="Accedi">
+                <input @click.prevent="submit" type="submit" class="submitButton" value="Accedi">
             </form> 
         </div>
 
@@ -36,12 +36,35 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { setUsername, setToken } from '../states/loggedUser';
 
 const username = ref('');
 const password = ref('');
 
-function submit() { // For testing
-    alert("The username is " + username.value + "\n" + "Password is " + password.value);
+function submit() { 
+    fetch('http://localhost:8080/api/v1/login', {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json',  
+        },
+        body: JSON.stringify({ username: username.value, password: password.value })
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        console.log('Data:', data);
+
+        if (data.message === 'Authentication successful') {
+            setToken(data.token);
+            setUsername(username.value);
+            window.location.href = '/home';   
+        }
+        else {
+            alert(data.message);
+        }
+    })
+    .catch((err) => {
+        console.log('Error:', err);
+    });
 }
 
 onMounted(() => {
