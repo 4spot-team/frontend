@@ -16,19 +16,17 @@
 </template>
 
 <script setup>
+    /* import { onMounted } from 'vue'; */
+    
     import EventPage from './EventPage.vue';
     import ContainerHeader from './ContainerHeader.vue';
     import ContainerNavlist from './ContainerNavlist.vue';
-</script>
 
-<script>
-    export default {
-        methods: { 
-            handleScroll() {
-                console.log('Better no');
-            }
-        }
-    }
+    /* import { loggedUser } from '@/states/loggedUser'; */
+    
+    /* onMounted(() => {
+
+    }); */
 </script>
 
 <style scoped>

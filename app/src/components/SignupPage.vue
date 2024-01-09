@@ -24,7 +24,7 @@
                 <i class="bi bi-eye-slash" id="togglePassword"></i>
             </p>
 
-            <input @click="submit" type="submit" class="submitButton" value="Registrati">
+            <input @click.prevent="submit" type="submit" class="submitButton" value="Registrati">
         </form>
 
         <p class="informativaPrivacy">
@@ -42,13 +42,41 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { setUsername, setToken } from '../states/loggedUser';
+import { backendApiBaseUrl } from '../states/backendInfo';
 
 const email = ref ('');
 const username = ref('');
 const password = ref('');
 
 function submit() {
-    alert(email.value + " " + username.value + " " + password.value);
+    fetch(backendApiBaseUrl + '/register', {
+    method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json',  
+        },
+        body: JSON.stringify({ 
+            username: username.value, 
+            email: email.value,
+            password: password.value 
+        })
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        console.log('Data:', data);
+
+        if (data.message === 'User registered successfully') {
+            setToken(data.token);
+            setUsername(username.value);
+            window.location.href = '/home';   
+        }
+        else {
+            alert(data.message);
+        }
+    })
+    .catch((err) => {
+        console.log('Error:', err);
+    });
 }
 
 onMounted(() => {

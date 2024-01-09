@@ -37,12 +37,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { setUsername, setToken } from '../states/loggedUser';
+import { backendApiBaseUrl } from '../states/backendInfo';
 
 const username = ref('');
 const password = ref('');
 
 function submit() { 
-    fetch('http://localhost:8080/api/v1/login', {
+    fetch(backendApiBaseUrl + '/login', {
         method: 'POST', 
         headers: { 
             'Content-Type': 'application/json',  
