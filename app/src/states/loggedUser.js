@@ -1,42 +1,25 @@
-import { reactive } from 'vue';
+import { defineStore } from 'pinia';
 
-const loggedUser = reactive({
-    username: "",
-    token: ""
+export const useLoggedUser = defineStore('user', {
+    state: () => ({
+        username: '',
+        token: ''
+    }),
+    getters: {
+        getUsername() {
+            return this.username;
+        },
+        getToken() {
+            return this.token;
+        }
+    },
+    actions: {
+        setUsername(username) {
+            this.username = username;
+        },
+        setToken(token) {
+            this.token = token;
+        }
+    }
 });
 
-function setData(data) {
-    loggedUser.username = data.username;
-    loggedUser.token = data.token;
-}
-
-function resetData() {
-    loggedUser.username = "";
-    loggedUser.token = "";
-}
-
-function setUsername(username) {
-    loggedUser.username = username;
-}
-
-function resetUsername() {
-    loggedUser.username = "";
-}
-
-function setToken(token) {
-    loggedUser.token = token;
-}
-
-function resetToken() {
-    loggedUser.token = "";
-}
-
-export {
-    loggedUser,
-    setData,
-    resetData,
-    setUsername,
-    resetUsername, 
-    setToken,
-    resetToken
-}

@@ -24,7 +24,7 @@
                 <i class="bi bi-eye-slash" id="togglePassword"></i>
             </p>
 
-            <input @click.prevent="submit" type="submit" class="submitButton" value="Registrati">
+            <input @click.stop.prevent="submit" type="submit" class="submitButton" value="Registrati">
         </form>
 
         <p class="informativaPrivacy">
@@ -42,8 +42,12 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { setUsername, setToken } from '../states/loggedUser';
+import { useRouter } from 'vue-router';
+import { useLoggedUser } from '../states/loggedUser';
 import { backendApiBaseUrl } from '../states/backendInfo';
+
+const router = useRouter();
+const loggedUser = useLoggedUser();
 
 const email = ref ('');
 const username = ref('');
@@ -51,7 +55,7 @@ const password = ref('');
 
 function submit() {
     fetch(backendApiBaseUrl + '/register', {
-    method: 'POST', 
+        method: 'POST', 
         headers: { 
             'Content-Type': 'application/json',  
         },
@@ -63,12 +67,12 @@ function submit() {
     })
     .then((res) => res.json())
     .then((data) => {
-        console.log('Data:', data);
+        console.log('Data:', data); // DEBUG
 
-        if (data.message === 'User registered successfully') {
-            setToken(data.token);
-            setUsername(username.value);
-            window.location.href = '/home';   
+        if (data.success) {
+            loggedUser.setToken(data.token);
+            loggedUser.setUsername(username.value);
+            router.push('/');
         }
         else {
             alert(data.message);

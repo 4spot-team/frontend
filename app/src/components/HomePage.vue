@@ -16,17 +16,50 @@
 </template>
 
 <script setup>
-    /* import { onMounted } from 'vue'; */
-    
+    import { onMounted, ref } from 'vue';
+    import { useRouter } from 'vue-router';
+
     import EventPage from './EventPage.vue';
     import ContainerHeader from './ContainerHeader.vue';
     import ContainerNavlist from './ContainerNavlist.vue';
 
-    /* import { loggedUser } from '@/states/loggedUser'; */
+    import { useLoggedUser } from '../states/loggedUser';
+    import { backendApiBaseUrl } from '@/states/backendInfo';
     
-    /* onMounted(() => {
+    const router = useRouter();
 
-    }); */
+    const events = ref([]);
+    const loggedUser = useLoggedUser();
+
+    onMounted(() => {
+        console.log('Logged User:', loggedUser.getUsername); // DEBUG
+        console.log('Logged Token:', loggedUser.getToken); // DEBUG
+
+        fetch(backendApiBaseUrl + '/home', {
+            method: 'GET',
+            headers: { 
+                'Content-Type': 'application/json',  
+                'Authorization': loggedUser.getToken
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log('Data:', data); // DEBUG
+
+            if (data.success) {
+                events.value.concat(data.events);
+            }
+            else if (data.message === 'Authentication token missing') {
+                router.push('/login');
+            }
+            else {
+                alert(data.message);
+            }
+        })
+        .catch((err) => {
+            console.log('Error:', err);
+        })
+    });
 </script>
 
 <style scoped>

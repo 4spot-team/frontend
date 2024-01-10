@@ -20,7 +20,7 @@
                     <i class="bi bi-eye-slash" id="togglePassword"></i>
                 </p>
 
-                <input @click.prevent="submit" type="submit" class="submitButton" value="Accedi">
+                <input @click.stop.prevent="submit" type="submit" class="submitButton" value="Accedi">
             </form> 
         </div>
 
@@ -36,11 +36,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { setUsername, setToken } from '../states/loggedUser';
+import { useRouter } from 'vue-router';
+import { useLoggedUser } from '../states/loggedUser.js';
 import { backendApiBaseUrl } from '../states/backendInfo';
 
 const username = ref('');
 const password = ref('');
+
+const router = useRouter();
+const loggedUser = useLoggedUser();
 
 function submit() { 
     fetch(backendApiBaseUrl + '/login', {
@@ -55,9 +59,9 @@ function submit() {
         console.log('Data:', data);
 
         if (data.message === 'Authentication successful') {
-            setToken(data.token);
-            setUsername(username.value);
-            window.location.href = '/home';   
+            loggedUser.setUsername(username.value);
+            loggedUser.setToken(data.token);
+            router.push('/');
         }
         else {
             alert(data.message);
