@@ -34,7 +34,7 @@
         </p>
         
         <p>
-            <a href="login"> Hai già un account? Login </a>
+            <a class="intro-a" href="login"> Hai già un account? Login </a>
         </p>
 
     </div> <!-- Fine decorative box -->

@@ -1,6 +1,7 @@
-import { createApp } from 'vue'
+import { createApp, watch } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
+import { useLoggedUser } from './states/loggedUser'
 
 import App from './App.vue'
 import LoginPage from './components/LoginPage.vue'
@@ -15,21 +16,45 @@ import NotificationsPage from './components/NotificationsPage.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: HomePage },
-        { path: '/home', component: HomePage },
-        { path: '/login', component: LoginPage},
-        { path: '/signup', component: SignupPage},
-        { path: '/policies', component: PrivacyPage },
-        { path: '/profile', component: ProfilePage },
-        { path: '/explore', component: ExplorePage},
-        { path: '/messages', component: MessagesPage},
-        { path: '/notifications', component: NotificationsPage}
+        { path: '/', component: HomePage, meta: { requiresAuth: true } },
+        { path: '/home', component: HomePage, meta: { requiresAuth: true } },
+        { path: '/login', component: LoginPage, meta: { requiresAuth: false }},
+        { path: '/signup', component: SignupPage, meta: { requiresAuth: false }},
+        { path: '/policies', component: PrivacyPage, meta: { requiresAuth: false } },
+        { path: '/profile', component: ProfilePage, meta: { requiresAuth: true } },
+        { path: '/explore', component: ExplorePage, meta: { requiresAuth: true }},
+        { path: '/messages', component: MessagesPage, meta: { requiresAuth: true }},
+        { path: '/notifications', component: NotificationsPage, meta: { requiresAuth: true }}
     ]
 });
 
-const pinia = createPinia();
 
+
+// Local Storage
+const pinia = createPinia();
+watch(
+    pinia.state,
+    (state) => {
+        localStorage.setItem('user', JSON.stringify(state.user));
+    },
+    { deep: true }
+);
+
+// MOUNT
 const app = createApp(App);
 app.use(router);
 app.use(pinia);
 app.mount('#app');
+
+// First frontend check of token
+const loggedUser = useLoggedUser();
+
+router.beforeEach((to) => {
+    if (to.meta.requiresAuth && !loggedUser.isAuthenticated()) {
+        return {
+            path: '/login',
+            // save the location we were at to come back later
+            query: { redirect: to.fullPath }
+        }
+    }
+});

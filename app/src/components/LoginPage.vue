@@ -25,11 +25,11 @@
         </div>
 
         <p>
-            <a href="passwordrecover">Password dimenticata?</a>
+            <a class="intro-a" href="passwordrecover">Password dimenticata?</a>
         </p>
         
         <p>
-            <a href="signup">Non hai ancora un account? Iscriviti.</a>
+            <a class="intro-a" href="signup">Non hai ancora un account? Iscriviti.</a>
         </p>
     </div>
 </template>
