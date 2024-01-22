@@ -25,11 +25,11 @@
         </div>
 
         <p>
-            <a class="intro-a" href="passwordrecover">Password dimenticata?</a>
+            <a class="intro-a" href="/passwordrecover">Password dimenticata?</a>
         </p>
         
         <p>
-            <a class="intro-a" href="signup">Non hai ancora un account? Iscriviti.</a>
+            <a class="intro-a" href="/signup">Non hai ancora un account? Iscriviti.</a>
         </p>
     </div>
 </template>
@@ -64,7 +64,7 @@ function submit() {
             router.push('/');
         }
         else {
-            alert(data.message);
+            alert(data.message !== undefined ? data.message : data.errors[0].msg);    // JUST FOR NOW
         }
     })
     .catch((err) => {
@@ -73,7 +73,7 @@ function submit() {
 }
 
 onMounted(() => {
-    document.body.style.backgroundImage = "url('./assets/loginBackground.jpg')";
+    document.body.style.backgroundImage = "url('/assets/loginBackground.jpg')";
 });
 
 </script>

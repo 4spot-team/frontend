@@ -28,13 +28,13 @@
         </form>
 
         <p class="informativaPrivacy">
-            Iscrivendoti, accetti le nostre <a href="policies">Condizioni</a>. Scopri in che modo raccogliamo,
+            Iscrivendoti, accetti le nostre <a href="/policies">Condizioni</a>. Scopri in che modo raccogliamo,
             usiamo e condividiamo i tuoi dati consultando la nostra Informativa sulla privacy 
             e la nostra Informativa sui cookie.
         </p>
         
         <p>
-            <a class="intro-a" href="login"> Hai già un account? Login </a>
+            <a class="intro-a" href="/login"> Hai già un account? Login </a>
         </p>
 
     </div> <!-- Fine decorative box -->
@@ -75,7 +75,7 @@ function submit() {
             router.push('/');
         }
         else {
-            alert(data.message);
+            alert(data.message !== undefined ? data.message : data.errors[0].msg);    // JUST FOR NOW
         }
     })
     .catch((err) => {
@@ -84,7 +84,7 @@ function submit() {
 }
 
 onMounted(() => {
-    document.body.style.backgroundImage = "url('./assets/signupBackground.jpg')";
+    document.body.style.backgroundImage = "url('/assets/signupBackground.jpg')";
 });
 </script>
 

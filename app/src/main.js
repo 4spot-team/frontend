@@ -6,6 +6,8 @@ import { useLoggedUser } from './states/loggedUser'
 import App from './App.vue'
 import LoginPage from './components/LoginPage.vue'
 import SignupPage from './components/SignupPage.vue'
+import PasswordRecover from './components/PasswordRecover.vue'
+import PasswordChange from './components/PasswordChange.vue'
 import PrivacyPage from './components/PrivacyPage.vue'
 import HomePage from './components/HomePage.vue'
 import ProfilePage from './components/ProfilePage.vue'
@@ -20,6 +22,8 @@ const router = createRouter({
         { path: '/home', component: HomePage, meta: { requiresAuth: true } },
         { path: '/login', component: LoginPage, meta: { requiresAuth: false }},
         { path: '/signup', component: SignupPage, meta: { requiresAuth: false }},
+        { path: '/passwordrecover', component: PasswordRecover, meta: { requiresAuth: false } },
+        { path: '/passwordchange/:token', component: PasswordChange, meta: { requiresAuth: false } },
         { path: '/policies', component: PrivacyPage, meta: { requiresAuth: false } },
         { path: '/profile', component: ProfilePage, meta: { requiresAuth: true } },
         { path: '/explore', component: ExplorePage, meta: { requiresAuth: true }},
