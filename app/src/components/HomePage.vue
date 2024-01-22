@@ -6,9 +6,16 @@
 
             <div id="component">
                 <div id="home">
-                    <div v-if="accepted" id="events-list-div">
-                        <EventPage />
-                        <EventPage />
+                    <div v-if="accepted">
+                        <div id="events-list-container">
+                            <div id="events-list-div">
+                                <EventPage />
+                                <EventPage />
+                            </div>
+                        </div>
+                        
+                        <SearchMenu />
+
                     </div>
                     <div id="accept-policies-container" v-else>
                         <AcceptPolicies />
@@ -27,17 +34,20 @@
     import ContainerHeader from './ContainerHeader.vue';
     import ContainerNavlist from './ContainerNavlist.vue';
     import AcceptPolicies from './AcceptPolicies.vue';
+    import SearchMenu from './SearchMenu.vue';
 
     import { useLoggedUser } from '../states/loggedUser';
     import { backendApiBaseUrl } from '@/states/backendInfo';
     
     const router = useRouter();
 
+    //const filter = ref('');
     const events = ref([]);
     const loggedUser = useLoggedUser();
 
     // For policy acceptance
     const accepted = ref(true);
+
 
     onMounted(() => {
         // Remove Background Image
@@ -86,12 +96,21 @@
     height: 100%;
     
     padding: 0 0;
+    /* overflow-y: scroll; */
+}
+
+#events-list-container
+{
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    height: 100%;
     overflow-y: scroll;
 }
 
 #events-list-div
 {
-    position: relative;
+    position: absolute;
     background-color: white;
     border-radius: 20px;
     padding-top: 30px;
@@ -108,5 +127,4 @@
     justify-content: center;  
     align-items: center;  
 }
-
 </style>
