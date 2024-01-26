@@ -9,18 +9,26 @@
                     <div v-if="accepted">
                         <div id="events-list-container">
                             <div id="events-list-div">
-                                <EventPage />
+                                <EventPage 
+                                    @show-comments-window="toggleCommentsWindow"
+                                />
                                 <EventPage />
                             </div>
                         </div>
                         
-                        <SearchMenu />
+                        <SearchMenu 
+                           :disabled="commentWindowActive"  
+                        />
 
                     </div>
                     <div id="accept-policies-container" v-else>
                         <AcceptPolicies />
                     </div>
                 </div>
+                <CommentsWindow 
+                    v-if="commentWindowActive"
+                    ref="target"
+                />
             </div>
         </div>
     </div>
@@ -29,15 +37,17 @@
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import { onClickOutside } from '@vueuse/core';
 
     import EventPage from './EventPage.vue';
     import ContainerHeader from './ContainerHeader.vue';
     import ContainerNavlist from './ContainerNavlist.vue';
     import AcceptPolicies from './AcceptPolicies.vue';
     import SearchMenu from './SearchMenu.vue';
+    import CommentsWindow from './CommentsWindow.vue';
 
     import { useLoggedUser } from '../states/loggedUser';
-    import { backendApiBaseUrl } from '@/states/backendInfo';
+    import { backendApiBaseUrl } from  '@/states/backendInfo';
     
     const router = useRouter();
 
@@ -48,6 +58,12 @@
     // For policy acceptance
     const accepted = ref(true);
 
+    // For comment window
+    const commentWindowActive = ref(false);
+
+    // Click outside comment window
+    const target = ref(null);
+    onClickOutside(target, () => toggleCommentsWindow());
 
     onMounted(() => {
         // Remove Background Image
@@ -83,6 +99,20 @@
             console.log('Error:', err);
         })
     });
+
+    // Toggle comments window
+    function toggleCommentsWindow() {
+        if (commentWindowActive.value) {    // Hide
+            commentWindowActive.value = false;
+            document.getElementById('events-list-container').style.overflowY = 'scroll';
+            document.getElementById('home').style.filter = 'brightness(1)';
+        }
+        else {  // Show
+            commentWindowActive.value = true;
+            document.getElementById('events-list-container').style.overflowY = 'hidden';
+            document.getElementById('home').style.filter = 'brightness(0.7)';
+        }
+    }
 </script>
 
 <style scoped>
@@ -106,6 +136,7 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
+    filter: brightness(1);
 }
 
 #events-list-div

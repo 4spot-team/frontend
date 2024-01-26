@@ -1,5 +1,5 @@
 <template>
-    <div @mouseover="showMenu=true" 
+    <div @mouseover="showMenuFunction" 
         @mouseleave="showMenu=false"
         id="search-menu"
     >
@@ -40,10 +40,16 @@
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref, defineProps, onMounted } from 'vue';
 
     import { useLoggedUser } from '../states/loggedUser';
     import { backendApiBaseUrl } from '@/states/backendInfo';
+
+    // For make it functioning
+    const props = defineProps({
+        disabled: Boolean
+    });
+
 
     const loggedUser = useLoggedUser();
 
@@ -54,6 +60,10 @@
     const foundEvents = ref([]);
     const foundUsers = ref([]);
     const foundEventTypes = ref([]);
+
+    function showMenuFunction() {
+        if (!props.disabled) showMenu.value = true;
+    }
 
     function search() {
         fetch(backendApiBaseUrl + '/home', {

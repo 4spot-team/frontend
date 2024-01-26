@@ -81,7 +81,8 @@
         </div>
 
         <div id="comments">
-            <div id="comments-header">
+            <div @click="$emit('showCommentsWindow')" 
+            id="comments-header">
                 <p> Commenti </p>
             </div>
             
@@ -93,20 +94,12 @@
             <div id="comments-input-div">   
                 <input class="comment-input" placeholder="Lascia un commento">
             </div>
-
         </div>
+
     </div>
 </template>
 
-<script>
-
-export default {
-    methods: { 
-        handleScroll() {
-            console.log('Better no');
-        }
-    }
-}
+<script setup>
 
 </script>
 
