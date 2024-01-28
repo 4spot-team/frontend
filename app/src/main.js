@@ -14,6 +14,7 @@ import ProfilePage from './components/ProfilePage.vue'
 import ExplorePage from './components/ExplorePage.vue'
 import MessagesPage from './components/MessagesPage.vue'
 import NotificationsPage from './components/NotificationsPage.vue'
+import EventPage from './components/EventPage.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -28,7 +29,8 @@ const router = createRouter({
         { path: '/profile', component: ProfilePage, meta: { requiresAuth: true } },
         { path: '/explore', component: ExplorePage, meta: { requiresAuth: true }},
         { path: '/messages', component: MessagesPage, meta: { requiresAuth: true }},
-        { path: '/notifications', component: NotificationsPage, meta: { requiresAuth: true }}
+        { path: '/notifications', component: NotificationsPage, meta: { requiresAuth: true }},
+        { path: '/event', component: EventPage, meta: { requiresAuth: true }}
     ]
 });
 

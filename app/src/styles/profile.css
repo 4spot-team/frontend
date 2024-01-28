@@ -1,0 +1,135 @@
+#profile
+{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow-y: scroll;
+}
+#profile-info
+{
+    background-color: rgb(235, 235, 235);
+    border-bottom: 1px solid grey;
+    position: relative;
+}
+
+#your-events
+{
+    background-color: white;
+    border-bottom: 2px solid grey;
+}
+
+#organized-events
+{
+    background-color: white;
+    border-bottom: 2px solid grey;
+}
+
+#profile-header
+{
+    padding: 0px 25px;
+    height: 150px;
+}
+
+#profile-img-div
+{
+    position: relative;
+    display: inline-block;
+    width: 130px;
+    /* height: 100%; */
+}
+
+#main-info
+{
+    position: relative;
+    display: inline-block;
+    width: 75%;
+    height: 100%;
+}
+
+#name-age
+{
+    height: 50%;
+}
+
+#name-age p
+{
+    position: absolute;
+    top: 50px;
+    margin: 0 0;
+    font-size: 22px;
+    color: rgb(72, 72, 72);
+}
+
+#profile-username
+{
+    height: 50%;
+}
+#profile-username p
+{
+    position: absolute;
+    bottom: 50px;
+    margin: 0 3px;
+    color: rgb(100, 100, 100);
+}
+
+#settings-image-div
+{
+    display: inline-grid;
+    /* width: 10%; */
+    vertical-align: top;
+}
+
+#settings-image-div img
+{
+    width: 40px;
+    margin-left: 60%;
+    margin-top: 25px;
+}
+
+#profile-image
+{
+    width: 100px;
+    margin: 25px 0;
+    border-radius: 50%;
+
+}
+
+#network-info
+{
+    padding: 0 40px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+
+.profile-section-header
+{
+    font-size: 25px;
+    color: rgb(72, 72, 72);
+    margin: 25px 25px;
+}
+
+.profile-section-body
+{
+    font-size: 18px;
+    color: rgb(72, 72, 72);
+    margin: 20px 35px;
+}
+
+.n-info
+{
+    display: inline-block;
+    margin-right: 30px;
+    width: 250px;
+}
+.n-info p{
+    display: inline-block;
+    margin: 20px 1px;
+    color: rgb(72, 72, 72);
+}
+
+.reduced-events-list
+{
+    overflow-y: scroll;
+    max-height: 400px;
+}

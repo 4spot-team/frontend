@@ -50,6 +50,8 @@
 #component
 {   
     position: absolute;
+    background-color: white;
+    min-width: 800px;
     width: 75%;
     bottom: 0;
     right: 0;
