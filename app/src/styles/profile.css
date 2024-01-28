@@ -34,8 +34,17 @@
 {
     position: relative;
     display: inline-block;
-    width: 130px;
-    /* height: 100%; */
+    height: 100px;
+    width: 100px;
+    margin: 20px 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 0 2px 2px 2px rgb(154, 154, 154);
+}
+
+#profile-image
+{
+    width: 100px;
 }
 
 #main-info
@@ -84,14 +93,6 @@
     width: 40px;
     margin-left: 60%;
     margin-top: 25px;
-}
-
-#profile-image
-{
-    width: 100px;
-    margin: 25px 0;
-    border-radius: 50%;
-
 }
 
 #network-info

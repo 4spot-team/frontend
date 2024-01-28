@@ -8,6 +8,8 @@
                     <p v-if="notificationsList.length===0">
                         There are no notifications!
                     </p>
+                    <NotificationBlock />
+                    <NotificationBlock />
                 </div>
             </div>
         </div>
@@ -19,6 +21,7 @@ import { ref } from 'vue';
 
 import ContainerHeader from './ContainerHeader.vue';
 import ContainerNavlist from './ContainerNavlist.vue';
+import NotificationBlock from './NotificationBlock.vue';
 
 const notificationsList = ref([]);
 </script>

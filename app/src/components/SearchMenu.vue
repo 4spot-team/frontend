@@ -125,7 +125,7 @@
     padding: 20px 20px;
     /* min-height: 60px; */
     max-height: 200px;
-    /* box-shadow: 0 3px 2px 2px rgb(197, 197, 197); */
+    box-shadow: 0 1px 1px 1px rgb(197, 197, 197);
     border-radius: 10px;
 }
 
