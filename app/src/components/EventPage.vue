@@ -1,19 +1,20 @@
 <template>
     <div id="event">
         <div id="event-header">
-                Concerto Autunno 2022
+                {{ title }}
         </div>
 
         <div id="img">
-            <img src="../assets/concert.jpeg" id="main-img">
+            <img v-bind:src="image" id="main-img">
+            <!-- <img src="../assets/concert.jpeg" id="main-img"> -->
         </div>  
 
         <div id="info-1">
             <div id="tags">
                 <ul class="tags-list">
-                    <li>#concerto</li>
-                    <li>#musica</li>
-                    <li>#live</li>
+                    <li v-for="hashtag in hashtags" v-bind:key="hashtag">
+                        #{{ hashtag }}
+                    </li>
                 </ul>
             </div>
             <br>
@@ -22,7 +23,7 @@
                     <li>
                         <img src="../assets/profile-user.png" class="listImg">
                         &ensp;
-                        @comunedirovereto
+                        @{{ organiserUsername }}
                     </li>
                     <li>
                         <ul class="star-list">
@@ -58,24 +59,24 @@
                     <li>
                         <img src="../assets/location.png" class="listImgSmall">
                         &ensp;
-                        Rovereto
+                        {{ location }}
                     </li>
                     <li>
                         <img src="../assets/date.png" class="listImgSmall">
                         &ensp;
-                        10/10/2022
+                        {{ parsedDate }}
                     </li>
                     <li>
                         <img src="../assets/ticket.png" class="listImgSmall">
                         &ensp;
-                        €15
+                        {{ price }}
                     </li>
                 </ul>
             </div>
             <div id="description">
                 <br>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    {{ description }}
                 </p>
             </div>
         </div>
@@ -100,6 +101,89 @@
 </template>
 
 <script setup>
+import { defineProps, onMounted, ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { backendApiBaseUrl } from '@/states/backendInfo';
+import { useLoggedUser } from '@/states/loggedUser';
+
+const props = defineProps({
+    useProps: Boolean,
+    titleProp: String,
+    imageProp: String,
+    organiserProp: JSON,
+    dateProp: Date,
+    locationProp: String,
+    priceProp: String,
+    hashtagsProp: [String],
+    descriptionProp: String
+});
+
+const route = useRoute();
+const loggedUser = useLoggedUser();
+
+let title;
+let image;
+let organiser;
+let date;
+let location;
+let price;
+let hashtags;
+let description;
+
+let parsedDate;
+let organiserUsername;
+
+
+// This component works in both the cases where it is inserted
+// inside a paretn component or it's a standalone Web Page
+onMounted(() => {
+    if (props.useProps) {   // Access event from home
+        title = computed(() => props.titleProp);
+        image = computed(() => props.imageProp);
+        organiser = computed(() => props.organiserProp);
+        date = computed(() => props.dateProp);
+        location = computed(() => props.locationProp);
+        price = computed(() => props.priceProp);
+        hashtags = computed(() => props.hashtagsProp);
+        description = computed(() => props.descriptionProp);
+    }
+    else {  // Access event directly from url
+    fetch(backendApiBaseUrl + '/event/' + route.params.eventCode, {
+        method: 'GET',
+        headers: { 
+            'Content-Type': 'application/json',  
+            'Authorization': loggedUser.getToken
+        }
+    })  
+    .then(res => res.json())
+    .then((data) => {
+        if (data.success) {
+            const event = data.event;
+
+            // Assign values to stuff 
+            title = ref(event.title);
+            image = ref(event.image);
+            organiser = ref(event.organiser);
+            date = ref(event.date);
+            location = ref(event.location);
+            price = ref(event.price);
+            hashtags = ref(event.hashtags);
+            description = ref(event.description);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+    }
+    
+    // For correct format of date
+    parsedDate = computed(() => {
+        return date.value.toString().split(' ').slice(1, 4).toString().replace(',', ' ').replace(',', ', ');
+    })
+    organiserUsername = computed(() => {
+        return organiser.value.username;
+    })
+});
 
 </script>
 

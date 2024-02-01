@@ -30,7 +30,7 @@ const router = createRouter({
         { path: '/explore', component: ExplorePage, meta: { requiresAuth: true }},
         { path: '/messages', component: MessagesPage, meta: { requiresAuth: true }},
         { path: '/notifications', component: NotificationsPage, meta: { requiresAuth: true }},
-        { path: '/event', component: EventPage, meta: { requiresAuth: true }}
+        { path: '/event/:eventCode', component: EventPage, props: { useProps: false }, meta: { requiresAuth: true }}
     ]
 });
 

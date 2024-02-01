@@ -10,9 +10,19 @@
                         <div id="events-list-container">
                             <div id="events-list-div">
                                 <EventPage 
+                                    v-for="event in events"
+                                    :key="event.value.code"
+                                    :use-props="true"
+                                    :title-prop="event.value.title"
+                                    :image-prop="event.value.image"
+                                    :organiser-prop="event.value.organiser"
+                                    :date-prop="event.value.date"
+                                    :location-prop="event.value.location"
+                                    :price-prop="event.value.price"
+                                    :hashtags-prop="event.value.hashtags"
+                                    :descrption-prop="event.value.description"
                                     @show-comments-window="toggleCommentsWindow"
                                 />
-                                <EventPage />
                             </div>
                         </div>
                         
@@ -48,6 +58,8 @@
 
     import { useLoggedUser } from '../states/loggedUser';
     import { backendApiBaseUrl } from  '@/states/backendInfo';
+
+    import { urlToBase64 } from '../middlewares/imagesHandling';
     
     const router = useRouter();
 
@@ -65,7 +77,38 @@
     const target = ref(null);
     onClickOutside(target, () => toggleCommentsWindow());
 
+    /// DEBUG ///
+    // Example Event
+    const exampleOrganizer = {
+        username: 'comunedirovereto'
+    }
+    const exampleEvent = ref({
+        code: '1',
+        title: "Concerto fine anno",
+        image: '',
+        organiser: exampleOrganizer,
+        location: 'Rovereto',
+        date: new Date(1706820350),
+        price: '€15',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        hashtags: ['rovereto', 'festa', 'concerto'],
+        comments: []
+    });
+    events.value.push(exampleEvent);
+    events.value.push(exampleEvent);
+    /////////////
+
     onMounted(() => {
+        /// DEBUG ///
+        urlToBase64('http://localhost:8080/assets/concert.jpeg')
+        .then((base64String) => {
+            console.log(base64String);
+            exampleEvent.value.image = base64String;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
         // Remove Background Image
         document.body.style.backgroundImage = null;
 
@@ -91,7 +134,6 @@
                 router.push('/login');
             }
             else {
-                //alert(data.message);
                 accepted.value = false;
             }
         })
@@ -141,7 +183,7 @@
 
 #events-list-div
 {
-    position: absolute;
+    position: relative;
     background-color: white;
     border-radius: 20px;
     padding-top: 30px;
