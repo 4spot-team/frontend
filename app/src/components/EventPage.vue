@@ -6,7 +6,6 @@
 
         <div id="img">
             <img v-bind:src="image" id="main-img">
-            <!-- <img src="../assets/concert.jpeg" id="main-img"> -->
         </div>  
 
         <div id="info-1">

@@ -1,15 +1,23 @@
 <template>
-    <div @click="router.push('/event')" id="reduced-event">
-        <img src="../assets/concert.jpeg" id='main-img'>
-        <div id="event-title"> Titolo</div>
-        <div id="event-organizer"> @coso </div>
+    <div @click="router.push('/event/' + eventCode)" id="reduced-event">
+        <img :src="image" id='main-img'>
+        <div id="event-title"> {{ title }} </div>
+        <div id="event-organizer"> @{{ organiserUsername }} </div>
     </div>
 </template>
 
 <script setup>
+import { defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+
+defineProps({
+    eventCode: String,
+    title: String,
+    image: String,
+    organiserUsername: String,
+});
 </script>
 
 <style scoped>

@@ -74,17 +74,13 @@
                         <div class="profile-section-body">
                             <p v-if="yourEvents.length===0">No events organized</p>
                             <div class="reduced-events-list">
-                                <ReducedEvent />
-                                <ReducedEvent />
-                                <ReducedEvent />
-
-                                <ReducedEvent />
-                                <ReducedEvent />
-                                <ReducedEvent />
-
-                                <ReducedEvent />
-                                <ReducedEvent />
-                                <ReducedEvent />
+                                <ReducedEvent 
+                                    v-for="event in yourEvents"
+                                    :key="event.value.code"
+                                    :title="event.value.title"
+                                    :image="event.value.image"
+                                    :organiser-username="event.value.organiser.username"
+                                />
                             </div>
                         </div>
                     </div>
@@ -93,17 +89,13 @@
                         <div class="profile-section-body">
                             <p v-if="organizedEvents.length===0">No events organized</p>
                             <div class="reduced-events-list">
-                                <ReducedEvent />
-                                <ReducedEvent />
-                                <ReducedEvent />
-
-                                <ReducedEvent />
-                                <ReducedEvent />
-                                <ReducedEvent />
-
-                                <ReducedEvent />
-                                <ReducedEvent />
-                                <ReducedEvent />
+                                <ReducedEvent 
+                                    v-for="event in organizedEvents"
+                                    :key="event.value.code"
+                                    :title="event.value.title"
+                                    :image="event.value.image"
+                                    :organiser-username="event.value.organiser.username"
+                                />
                             </div>
                         </div>
                     </div>
@@ -116,6 +108,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+import { urlToBase64 } from '@/middlewares/imagesHandling';
+
 import ContainerHeader from './ContainerHeader.vue';
 import ContainerNavlist from './ContainerNavlist.vue';
 import ReducedEvent from './ReducedEvent.vue';
@@ -123,7 +117,32 @@ import ReducedEvent from './ReducedEvent.vue';
 const yourEvents = ref([]);
 const organizedEvents = ref([]);
 
+// Example Event
+const exampleOrganizer = {
+    username: 'comunedirovereto'
+}
+const exampleEvent = ref({
+    code: '1',
+    title: "Concerto fine anno",
+    image: '',
+    organiser: exampleOrganizer,
+});
+yourEvents.value.push(exampleEvent);
+organizedEvents.value.push(exampleEvent);
+
 onMounted(() => {
+    /// DEBUG ///
+    urlToBase64('http://localhost:8080/assets/concert.jpeg')
+        .then((base64String) => {
+            console.log(base64String);
+            exampleEvent.value.image = base64String;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+    /////////////
+
     console.log('Do something')
 });
 </script>
