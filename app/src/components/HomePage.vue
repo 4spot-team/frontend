@@ -13,6 +13,7 @@
                                     v-for="event in events"
                                     :key="event.value.code"
                                     :use-props="true"
+                                    :creation-process="false"
                                     :title-prop="event.value.title"
                                     :image-prop="event.value.image"
                                     :organiser-prop="event.value.organiser"

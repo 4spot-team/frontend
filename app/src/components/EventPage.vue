@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <div id="comments">
+        <div v-if="!creationProcess" id="comments">
             <div @click="$emit('showCommentsWindow')" 
             id="comments-header">
                 <p> Commenti </p>
@@ -107,13 +107,14 @@ import { useLoggedUser } from '@/states/loggedUser';
 
 const props = defineProps({
     useProps: Boolean,
+    creationProcess: Boolean,
     titleProp: String,
     imageProp: String,
     organiserProp: JSON,
     dateProp: Date,
     locationProp: String,
     priceProp: String,
-    hashtagsProp: [String],
+    hashtagsProp: Array,
     descriptionProp: String
 });
 
@@ -132,10 +133,9 @@ let description;
 let parsedDate;
 let organiserUsername;
 
-
 // This component works in both the cases where it is inserted
 // inside a paretn component or it's a standalone Web Page
-onMounted(() => {
+const refresh = () => {
     if (props.useProps) {   // Access event from home
         title = computed(() => props.titleProp);
         image = computed(() => props.imageProp);
@@ -147,32 +147,32 @@ onMounted(() => {
         description = computed(() => props.descriptionProp);
     }
     else {  // Access event directly from url
-    fetch(backendApiBaseUrl + '/event/' + route.params.eventCode, {
-        method: 'GET',
-        headers: { 
-            'Content-Type': 'application/json',  
-            'Authorization': loggedUser.getToken
-        }
-    })  
-    .then(res => res.json())
-    .then((data) => {
-        if (data.success) {
-            const event = data.event;
+        fetch(backendApiBaseUrl + '/event/' + route.params.eventCode, {
+            method: 'GET',
+            headers: { 
+                'Content-Type': 'application/json',  
+                'Authorization': loggedUser.getToken
+            }
+        })  
+        .then(res => res.json())
+        .then((data) => {
+            if (data.success) {
+                const event = data.event;
 
-            // Assign values to stuff 
-            title = ref(event.title);
-            image = ref(event.image);
-            organiser = ref(event.organiser);
-            date = ref(event.date);
-            location = ref(event.location);
-            price = ref(event.price);
-            hashtags = ref(event.hashtags);
-            description = ref(event.description);
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+                // Assign values to stuff 
+                title = ref(event.title);
+                image = ref(event.image);
+                organiser = ref(event.organiser);
+                date = ref(event.date);
+                location = ref(event.location);
+                price = ref(event.price);
+                hashtags = ref(event.hashtags);
+                description = ref(event.description);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
     
     // For correct format of date
@@ -182,7 +182,19 @@ onMounted(() => {
     organiserUsername = computed(() => {
         return organiser.value.username;
     })
-});
+
+    /// DEBUG ///
+    console.log(title.value);
+    console.log(hashtags.value);
+    /* console.log(.value); */
+    console.log(organiser.value);
+    console.log(location.value);
+    console.log(price.value);
+    console.log(description.value);
+    /////////////
+}
+
+onMounted(refresh);
 
 </script>
 
