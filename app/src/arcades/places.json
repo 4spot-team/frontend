@@ -1,0 +1,14 @@
+{
+    "events": [
+        {
+            "code": "a",
+            "title": "Concerto Primo Maggio",
+            "location": "Da qualche parte mal monno",
+            "date": "10/12/2024",
+            "coordinates": [
+                1,
+                22
+            ]
+        }
+    ]
+}

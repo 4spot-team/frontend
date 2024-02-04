@@ -182,16 +182,6 @@ const refresh = () => {
     organiserUsername = computed(() => {
         return organiser.value.username;
     })
-
-    /// DEBUG ///
-    console.log(title.value);
-    console.log(hashtags.value);
-    /* console.log(.value); */
-    console.log(organiser.value);
-    console.log(location.value);
-    console.log(price.value);
-    console.log(description.value);
-    /////////////
 }
 
 onMounted(refresh);
