@@ -88,8 +88,8 @@
 
         <!-- Show event after filled (and before creating event) -->
         <div>
-            <EventPage 
-                :active="filled"
+            <EventPage
+                v-if="filled" 
                 :use-props="true"
                 :creation-process="true"
                 :title-prop="title"

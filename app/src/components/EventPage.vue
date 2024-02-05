@@ -1,5 +1,5 @@
 <template>
-    <div id="event" v-if="active">
+    <div id="event">
         <div id="event-header">
                 {{ title }}
         </div>
@@ -108,7 +108,6 @@ import { backendApiBaseUrl } from '@/states/backendInfo';
 import { useLoggedUser } from '@/states/loggedUser';
 
 const props = defineProps({
-    active: Boolean,
     useProps: Boolean,
     creationProcess: Boolean,
     codeProp: String,
@@ -128,16 +127,21 @@ const loggedUser = useLoggedUser();
 
 const noComments = ref(true);
 
-let code = null;
-let title = null;
-let image = null;
-let organiser = null;
-let date = null;
-let location = null;
-let price = null;
-let hashtags = null;
-let description = null;
-let comments = null;
+// Only for init
+const fakeOrganiz = {
+    username: ''
+}
+
+const code = ref('');
+const title = ref('');
+const image = ref('');
+const organiser = ref(fakeOrganiz);
+const date = ref(new Date());
+const location = ref('');
+const price = ref('');
+const hashtags = ref([]);
+const description = ref('');
+const comments = ref([]);
 
 let parsedDate;
 let organiserUsername;
@@ -146,21 +150,23 @@ let organiserUsername;
 // inside a paretn component or it's a standalone Web Page
 const refresh = () => {
     if (props.useProps) {   // Access event from home
-        code = computed(() => props.codeProp);
-        title = computed(() => props.titleProp);
-        image = computed(() => props.imageProp);
-        organiser = computed(() => props.organiserProp);
-        date = computed(() => props.dateProp);
-        location = computed(() => props.locationProp);
-        price = computed(() => props.priceProp);
-        hashtags = computed(() => props.hashtagsProp);
-        description = computed(() => props.descriptionProp);
+        code.value = props.codeProp;
+        title.value = props.titleProp;
+        image.value = props.imageProp;
+        organiser.value = props.organiserProp;
+        date.value = props.dateProp;
+        location.value = props.locationProp;
+        price.value = props.priceProp;
+        hashtags.value = props.hashtagsProp;
+        description.value = props.descriptionProp;
         
         // Returns only the first two comments (at most)
-        comments = computed(() => props.commentsProp/* .slice(0, 2) */);  
+        comments.value = props.commentsProp;  
     }
     else {  // Access event directly from url
-        fetch(backendApiBaseUrl + '/event/' + route.params.eventCode, {
+               
+        // Make fetch
+        fetch(backendApiBaseUrl + '/events/' + encodeURIComponent(route.params.eventCode), {
             method: 'GET',
             headers: { 
                 'Content-Type': 'application/json',  
@@ -171,18 +177,21 @@ const refresh = () => {
         .then((data) => {
             if (data.success) {
                 const event = data.event;
+                console.log(data.event);
 
                 // Assign values to stuff 
-                code = ref(event.code);
-                title = ref(event.title);
-                image = ref(event.image);
-                organiser = ref(event.organiser);
-                date = ref(event.date);
-                location = ref(event.location);
-                price = ref(event.price);
-                hashtags = ref(event.hashtags);
-                description = ref(event.description);
-                comments = ref(event.comments); // Returns all comments
+                code.value = event.code;
+                title.value = event.title;
+                image.value = event.image;
+                organiser.value = event.organiser;
+                date.value = new Date(event.date);
+                location.value = event.location.city + ', ' + event.location.address + event.location.houseNumber;
+                price.value = event.price.currency + event.price.amount;
+                hashtags.value = event.hashtags;
+                description.value = event.description;
+                comments.value = event.comments; // Returns all comments
+
+                console.log('Title: ' + title.value);
             }
         })
         .catch((err) => {
@@ -191,7 +200,7 @@ const refresh = () => {
     }
 
     // Check length of comments
-    if (comments !== null && comments.value !== undefined && comments.value.length > 0) {
+    if (comments.value !== null && comments.value !== undefined && comments.value.length > 0) {
         noComments.value = false;
     }
     
@@ -206,7 +215,7 @@ const refresh = () => {
 
 function subscribe() {
     if (!props.creationProcess) {
-        fetch(backendApiBaseUrl + '/events/' + code.value, {
+        fetch(backendApiBaseUrl + '/events/' + encodeURIComponent(code.value), {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',  
@@ -225,7 +234,10 @@ function subscribe() {
     }
 }
 
-onMounted(refresh);
+onMounted(() => {
+    refresh();
+    console.log(title);
+});
 
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <div @click="router.push('/event/' + eventCode)" id="reduced-event">
+    <div @click="router.push('/event/' + encodeURIComponent(eventCode))" id="reduced-event">
         <img :src="image" id='main-img'>
         <div id="event-title"> {{ title }} </div>
         <div id="event-organizer"> @{{ organiserUsername }} </div>

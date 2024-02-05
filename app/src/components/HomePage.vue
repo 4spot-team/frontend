@@ -11,20 +11,19 @@
                             <div id="events-list-div">
                                 <EventPage 
                                     v-for="event in events"
-                                    :key="event.value.code"
-                                    :active="true"
+                                    :key="event.code"
                                     :use-props="true"
                                     :creation-process="false"
-                                    :code-prop="event.value.code"
-                                    :title-prop="event.value.title"
-                                    :image-prop="event.value.image"
-                                    :organiser-prop="event.value.organiser"
-                                    :date-prop="event.value.date"
-                                    :location-prop="event.value.location"
-                                    :price-prop="event.value.price"
-                                    :hashtags-prop="event.value.hashtags"
-                                    :descrption-prop="event.value.description"
-                                    :coments-prop="event.value.comments"
+                                    :code-prop="event.code"
+                                    :title-prop="event.title"
+                                    :image-prop="event.image"
+                                    :organiser-prop="event.organiser"
+                                    :date-prop="new Date(event.date)"
+                                    :location-prop="event.location.city + ', ' + event.location.address + event.location.houseNumber"
+                                    :price-prop="event.price.currency + (event.price.amount !== undefined ? event.price.amount : 0).toString()"
+                                    :hashtags-prop="event.hashtags"
+                                    :description-prop="event.description"
+                                    :comments-prop="event.comments"
                                     @show-comments-window="toggleCommentsWindow(event)"
                                 />
                             </div>
@@ -42,7 +41,7 @@
                 <CommentsWindow 
                     v-if="commentWindowActive"
                     ref="target"
-                    :coments="viewedEvent.value.comments"
+                    :viewed-event="viewedEvent"
                 />
             </div>
         </div>
@@ -50,7 +49,7 @@
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, onBeforeMount } from 'vue';
     import { useRouter } from 'vue-router';
     import { onClickOutside } from '@vueuse/core';
 
@@ -87,7 +86,7 @@
     const exampleOrganizer = {
         username: 'comunedirovereto'
     }
-    const exampleEvent = ref({
+    const exampleEvent = {
         code: '1',
         title: "Concerto fine anno",
         image: '',
@@ -98,14 +97,14 @@
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
         hashtags: ['rovereto', 'festa', 'concerto'],
         comments: []
-    });
+    };
     events.value.push(exampleEvent);
     events.value.push(exampleEvent);
     /////////////
 
-    onMounted(() => {
+    onBeforeMount(() => {
         /// DEBUG ///
-        urlToBase64('http://localhost:8080/assets/concert.jpeg')
+        urlToBase64('../assets/concert.jpeg')
         .then((base64String) => {
             console.log(base64String);
             exampleEvent.value.image = base64String;
@@ -113,7 +112,9 @@
         .catch((err) => {
             console.log(err);
         })
+    });
 
+    onMounted(() => {
         // Remove Background Image
         document.body.style.backgroundImage = null;
 
@@ -133,7 +134,7 @@
 
             if (data.success) {
                 accepted.value = true;
-                events.value.concat(data.events);
+                events.value = data.events;
             }
             else if (data.message === 'Authentication token missing') {
                 router.push('/login');
@@ -150,8 +151,8 @@
     // Toggle comments window
     function toggleCommentsWindow(event) {
         if (commentWindowActive.value) {    // Hide
-            viewedEvent.value = null;
             commentWindowActive.value = false;
+            viewedEvent.value = null;
             document.getElementById('events-list-container').style.overflowY = 'scroll';
             document.getElementById('home').style.filter = 'brightness(1)';
         }

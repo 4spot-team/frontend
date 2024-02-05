@@ -15,13 +15,14 @@
 import { defineProps } from 'vue';
 
 const props = defineProps({
-    comments: Array
+    viewedEvent: Object
 });
 
 function noComments() {
     let retval = true;
-    if (props.comments !== undefined) {
-        retval = (props.comments.length <= 0);
+    const comments = props.viewedEvent.comments;
+    if (comments !== undefined) {
+        retval = (comments.length <= 0);
     }
     return retval;
 }

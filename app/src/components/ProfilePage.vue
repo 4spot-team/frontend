@@ -12,14 +12,14 @@
                                 <img id="profile-image" src="/assets/profile-user.png">
                             </div>
                             <div id="main-info">
-                                <div id="name-age">
+                                <!-- <div id="name-age">
                                     <p>
                                         Paolo Bianchi, 24
                                     </p>
-                                </div>
+                                </div> -->
                                 <div id="profile-username">
                                     <p>
-                                        @paolobianchi - Account personale
+                                        @{{ userInfo.username }} - Account personale
                                     </p>
                                 </div>
                             </div>
@@ -32,21 +32,21 @@
                             <div class="n-info">
                                 <p>Following: </p>
                                 <p style="color: grey;">
-                                    15
+                                    {{ userInfo.following.length }}
                                 </p>
                             </div>
                             <div class="n-info">
                                 <p>Followers: </p>
                                 <p style="color: grey;">
-                                    113
+                                    {{ userInfo.followers.length }}
                                 </p>
                             </div>
-                            <div class="n-info">
+                            <!-- <div class="n-info">
                                 <p>Amici: </p>
                                 <p style="color: grey;">
-                                    3
+                                    {{ userInfo.frien }}
                                 </p>
-                            </div>
+                            </div> -->
                             <div class="n-info">
                                 <p>Rating: </p>
                                     <ul class="star-list" style="margin-left: 3%;">
@@ -76,10 +76,11 @@
                             <div class="reduced-events-list">
                                 <ReducedEvent 
                                     v-for="event in yourEvents"
-                                    :key="event.value.code"
-                                    :title="event.value.title"
-                                    :image="event.value.image"
-                                    :organiser-username="event.value.organiser.username"
+                                    :key="event.code"
+                                    :event-code="event.code"
+                                    :title="event.title"
+                                    :image="event.image"
+                                    :organiser-username="event.organiser.username"
                                 />
                             </div>
                         </div>
@@ -91,13 +92,17 @@
                             <div class="reduced-events-list">
                                 <ReducedEvent 
                                     v-for="event in organizedEvents"
-                                    :key="event.value.code"
-                                    :title="event.value.title"
-                                    :image="event.value.image"
-                                    :organiser-username="event.value.organiser.username"
+                                    :key="event.code"
+                                    :event-code="event.code"
+                                    :title="event.title"
+                                    :image="event.image"
+                                    :organiser-username="event.organiser.username"
                                 />
                             </div>
                         </div>
+                    </div>
+                    <div id="new-event">
+                        <button @click="router.push('/create-event')"> Nuovo evento</button>
                     </div>
                 </div>
             </div>
@@ -106,7 +111,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { urlToBase64 } from '@/middlewares/imagesHandling';
 import { backendApiBaseUrl } from '@/states/backendInfo';
@@ -116,8 +122,16 @@ import ContainerHeader from './ContainerHeader.vue';
 import ContainerNavlist from './ContainerNavlist.vue';
 import ReducedEvent from './ReducedEvent.vue';
 
+
+const router = useRouter();
 const loggedUser = useLoggedUser();
 
+
+const userInfo = reactive({
+    username: '',
+    following: [],
+    followers: []
+});
 const yourEvents = ref([]);
 const organizedEvents = ref([]);
 
@@ -125,12 +139,12 @@ const organizedEvents = ref([]);
 const exampleOrganizer = {
     username: 'comunedirovereto'
 }
-const exampleEvent = ref({
+const exampleEvent = {
     code: '1',
     title: "Concerto fine anno",
     image: '',
     organiser: exampleOrganizer,
-});
+};
 yourEvents.value.push(exampleEvent);
 organizedEvents.value.push(exampleEvent);
 
@@ -139,7 +153,7 @@ onMounted(() => {
     urlToBase64('http://localhost:8080/assets/concert.jpeg')
         .then((base64String) => {
             console.log(base64String);
-            exampleEvent.value.image = base64String;
+            exampleEvent.image = base64String;
         })
         .catch((err) => {
             console.log(err);
@@ -158,7 +172,13 @@ onMounted(() => {
     .then((res) => res.json())
     .then((data) => {
         if (data.success) { // Gets only events organized by logged user yet
-            yourEvents.value = data.events;
+            // User
+            userInfo.username = data.user.username;
+            userInfo.following = data.user.following;
+            userInfo.followers = data.user.followers;
+
+            // Events
+            organizedEvents.value = data.events;
         }
     })
     .catch((err) => {

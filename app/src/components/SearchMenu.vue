@@ -11,9 +11,14 @@
             </div>
             <ul class="search-result">
                 <li v-if="foundEvents.length===0" >Nessun evento</li>
-                <li v-else v-for="event in foundEvents" v-bind:key="event.id">
-                    {{ event.title }}
-                </li>
+                <ReducedEvent 
+                    v-for="event in foundEvents"
+                    :key="event.code"
+                    :event-code="event.code"
+                    :title="event.title"
+                    :image="event.image"
+                    :organiser-username="event.organiser"
+                />
             </ul>
 
             <div class="result-type">
@@ -41,6 +46,8 @@
 
 <script setup>
     import { ref, defineProps, onMounted } from 'vue';
+
+    import ReducedEvent from './ReducedEvent.vue';
 
     import { useLoggedUser } from '../states/loggedUser';
     import { backendApiBaseUrl } from '@/states/backendInfo';
@@ -77,7 +84,7 @@
         .then((res) => res.json())
         .then((data) => {
             if (data.success) {
-                foundEvents.value = data.events;
+                foundEvents.value = data.generalEvents;
                 foundUsers.value = data.users;
                 foundEventTypes.value = data.generalEvents;
             }
@@ -124,7 +131,7 @@
     margin: 10px 50px;
     padding: 20px 20px;
     /* min-height: 60px; */
-    max-height: 200px;
+    max-height: 300px;
     box-shadow: 0 1px 1px 1px rgb(197, 197, 197);
     border-radius: 10px;
 }
@@ -139,5 +146,7 @@
 .search-result
 {
     margin: 20px 0;
+    max-height: 200px;
+    overflow-y: scroll;
 }
 </style>
