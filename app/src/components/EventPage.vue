@@ -1,5 +1,5 @@
 <template>
-    <div id="event">
+    <div id="event" v-if="active">
         <div id="event-header">
                 {{ title }}
         </div>
@@ -108,6 +108,7 @@ import { backendApiBaseUrl } from '@/states/backendInfo';
 import { useLoggedUser } from '@/states/loggedUser';
 
 const props = defineProps({
+    active: Boolean,
     useProps: Boolean,
     creationProcess: Boolean,
     codeProp: String,
@@ -204,22 +205,24 @@ const refresh = () => {
 }
 
 function subscribe() {
-    fetch(backendApiBaseUrl + '/events/' + code.value, {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json',  
-            'Authorization': loggedUser.getToken
-        }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        if (data.success) {
-            alert(data.message);
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+    if (!props.creationProcess) {
+        fetch(backendApiBaseUrl + '/events/' + code.value, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',  
+                'Authorization': loggedUser.getToken
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) {
+                alert(data.message);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
 }
 
 onMounted(refresh);

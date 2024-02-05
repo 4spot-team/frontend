@@ -12,6 +12,7 @@
                                 <EventPage 
                                     v-for="event in events"
                                     :key="event.value.code"
+                                    :active="true"
                                     :use-props="true"
                                     :creation-process="false"
                                     :code-prop="event.value.code"

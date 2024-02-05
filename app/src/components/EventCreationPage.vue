@@ -11,13 +11,31 @@
                 <p class="field-name">Descrizione:</p>
                 <input v-model="description" class="filling-field" placeholder="Descrizione">
             </div>
+            <!-- Location fileds -->
             <div class="input-field">
-                <p class="field-name">Location:</p>
-                <input v-model="locationString" class="filling-field" placeholder="Location" required>
+                <p class="field-name">Codice postale:</p>
+                <input v-model="locationObject.postalCode" class="filling-field" placeholder="Codice postale" required>
             </div>
             <div class="input-field">
+                <p class="field-name">Paese:</p>
+                <input v-model="locationObject.state" class="filling-field" placeholder="Stato" required>
+            </div>
+            <div class="input-field">
+                <p class="field-name">Città:</p>
+                <input v-model="locationObject.city" class="filling-field" placeholder="Città" required>
+            </div>
+            <div class="input-field">
+                <p class="field-name">Via:</p>
+                <input v-model="locationObject.address" class="filling-field" placeholder="Indirizzo" required>
+            </div>
+            <div class="input-field">
+                <p type="number" class="field-name">Numero civico:</p>
+                <input v-model="locationObject.houseNumber" type="number" class="filling-field" placeholder="Numero civico" required>
+            </div>
+
+            <div class="input-field">
                 <p class="field-name">Data:</p>
-                <input v-model="dateString" type="date" class="filling-field" :min="getTodayString()" required>
+                <input @click="console.log(dateString)" v-model="dateString" type="datetime-local" class="filling-field" :min="getTodayString()" required>
             </div>
             <div class="input-field">
                 <p class="field-name">Immagine:</p>
@@ -51,7 +69,7 @@
             <div class="input-field">
                 <p class="field-name">Hashtags:</p>
                 <input v-model="hashtagsString" class="filling-field" placeholder="Hashtags">
-            </div>
+            </div> 
             <div class="input-field">
                 <p class="field-name">Prezzo:</p>
                 <input v-model="price.amount" class="filling-field" placeholder="Prezzo" type="number" min="0">
@@ -69,26 +87,30 @@
         </div>
 
         <!-- Show event after filled (and before creating event) -->
-        <div v-show="filled">
+        <div>
             <EventPage 
+                :active="filled"
                 :use-props="true"
                 :creation-process="true"
                 :title-prop="title"
                 :image-prop="image"
                 :organiser-prop="organiser"
-                :date-prop="date"
-                :location-prop="locationString"
-                :price-prop="price.currency + price.amount"
+                :date-prop="filled ? date : new Date()"
+                :location-prop="locationObject.city + ', ' + locationObject.address + locationObject.houseNumber"
+                :price-prop="price.currency + (price.amount !== undefined ? price.amount : 0).toString()"
                 :hashtags-prop="hashtags"
                 :description-prop="description"
+                :comments-prop="[]"
             />
-            <button @click.stop.prevent="createEvent" class="create-event-btn">Crea Evento</button>
+            <button v-if="filled" @click.stop.prevent="createEvent" class="create-event-btn">
+                Crea Evento
+            </button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 import EventTypesMenu from './EventTypesMenu.vue';
@@ -102,24 +124,42 @@ const router = useRouter();
 const loggedUser = useLoggedUser();
 
 // For utility
-const locationString = ref('');
-const dateString = ref('');
+const locationObject = reactive({
+    postalCode: "",
+    state: "",
+    city: "",
+    address: "",
+    houseNumber: undefined 
+});
+
 const hashtagsString = ref('');
 const organiser = ref({
     username: loggedUser.getUsername
 });
 const imageTitle = ref('');
+const dateString = ref('');
 
 // Main refs and computed to send to backend
 const title = ref('');
 const description = ref('');
+
 const date = computed(() => {   // Timestamp
-    const dateList = dateString.value.split('/');
+    // Split Date and Time
+    const dateTimeList = dateString.value.split('T');
+
+    // Split date
+    const dateList = dateTimeList[0].split('-');
     const year = dateList[0];
-    const month = dateList[1];
+    const month = dateList[1] - 1;
     const day = dateList[2];
-    return new Date(year, month, day);
+
+    // Split time
+    const timeList = dateTimeList[1].split(':');
+    const hours = timeList[0];
+    const minutes = timeList[1];
+    return new Date(year, month, day, hours, minutes);
 });    
+
 const image = ref('');  // base64 String
 const typologies = ref([]);
 const hashtags = computed(() => {
@@ -132,11 +172,12 @@ const hashtags = computed(() => {
     }
     return hashtagsList;
 });
+
 const price = ref({
-    amount: 0,
+    amount: undefined,
     currency: '€'
 });
-const numberPlaces = ref(0);
+const numberPlaces = ref(undefined);
 const noUnderage = ref(false);
 
 // Other utility refs
@@ -161,8 +202,12 @@ function checkCreatedEvent() {
     if (
         title.value !== '' &&
         /* typologies.value.length !== 0 && */  // Later
-        locationString.value !== '' &&
-        date.value !== 0 &&
+        locationObject.postalCode !== '' &&
+        locationObject.state !== '' &&
+        locationObject.city !== '' &&
+        locationObject.address !== '' &&
+        locationObject.houseNumber !== undefined &&
+        dateString.value !== '' &&
         image.value !== ''
     ) {
         filled.value = true;
@@ -177,26 +222,31 @@ function createEvent() {
             'Authorization': loggedUser.getToken
         },
         body: JSON.stringify({
-            title: title,
-            types: typologies,
-            location: locationString,
-            date: date.value.getTime()/1000,
-            noUnderage: noUnderage,
+            title: title.value,
+            types: typologies.value,
+            location: locationObject,
+            date: date.value.toISOString(),
+            noUnderage: noUnderage.value,
             hasQR: false,
-            image: image,
+            image: image.value,
             tickets: [],
-            price: price,
+            price: price.value,
             messagingGroup: undefined,
-            hashtags: hashtags,
-            description: description,
-            numOfSpots: numberPlaces,
+            hashtags: hashtags.value,
+            description: description.value,
+            numOfSpots: numberPlaces.value,
             occupiedSpots: 0,
             ratings: undefined,
             comments: [],
         })
     })
-    .then(() => {
-        router.push('/profile');
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+
+        if (data.success) {
+            router.push('/profile');
+        }
     })
     .catch((err) => {
         console.log(err);
