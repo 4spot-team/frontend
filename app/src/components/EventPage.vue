@@ -44,7 +44,7 @@
                         </ul>
                     </li>
                     <li>
-                        <button id="subscribe-btn">
+                        <button @click="subscribe" id="subscribe-btn">
                             Iscriviti
                         </button>
                     </li>
@@ -87,8 +87,10 @@
             </div>
             
             <div id="comments-list-div">
+                <p v-if="noComments"> 
+                    Non ci sono ancora commenti a questo evento 
+                </p>    
                 <!-- TODO: Insert coments -->
-                <p> Non ci sono ancora commenti a questo evento </p>    
             </div>
 
             <div id="comments-input-div">   
@@ -108,6 +110,7 @@ import { useLoggedUser } from '@/states/loggedUser';
 const props = defineProps({
     useProps: Boolean,
     creationProcess: Boolean,
+    codeProp: String,
     titleProp: String,
     imageProp: String,
     organiserProp: JSON,
@@ -115,20 +118,25 @@ const props = defineProps({
     locationProp: String,
     priceProp: String,
     hashtagsProp: Array,
-    descriptionProp: String
+    descriptionProp: String,
+    commentsProp: Array
 });
 
 const route = useRoute();
 const loggedUser = useLoggedUser();
 
-let title;
-let image;
-let organiser;
-let date;
-let location;
-let price;
-let hashtags;
-let description;
+const noComments = ref(true);
+
+let code = null;
+let title = null;
+let image = null;
+let organiser = null;
+let date = null;
+let location = null;
+let price = null;
+let hashtags = null;
+let description = null;
+let comments = null;
 
 let parsedDate;
 let organiserUsername;
@@ -137,6 +145,7 @@ let organiserUsername;
 // inside a paretn component or it's a standalone Web Page
 const refresh = () => {
     if (props.useProps) {   // Access event from home
+        code = computed(() => props.codeProp);
         title = computed(() => props.titleProp);
         image = computed(() => props.imageProp);
         organiser = computed(() => props.organiserProp);
@@ -145,6 +154,9 @@ const refresh = () => {
         price = computed(() => props.priceProp);
         hashtags = computed(() => props.hashtagsProp);
         description = computed(() => props.descriptionProp);
+        
+        // Returns only the first two comments (at most)
+        comments = computed(() => props.commentsProp/* .slice(0, 2) */);  
     }
     else {  // Access event directly from url
         fetch(backendApiBaseUrl + '/event/' + route.params.eventCode, {
@@ -160,6 +172,7 @@ const refresh = () => {
                 const event = data.event;
 
                 // Assign values to stuff 
+                code = ref(event.code);
                 title = ref(event.title);
                 image = ref(event.image);
                 organiser = ref(event.organiser);
@@ -168,11 +181,17 @@ const refresh = () => {
                 price = ref(event.price);
                 hashtags = ref(event.hashtags);
                 description = ref(event.description);
+                comments = ref(event.comments); // Returns all comments
             }
         })
         .catch((err) => {
             console.log(err);
         })
+    }
+
+    // Check length of comments
+    if (comments !== null && comments.value !== undefined && comments.value.length > 0) {
+        noComments.value = false;
     }
     
     // For correct format of date
@@ -181,6 +200,25 @@ const refresh = () => {
     })
     organiserUsername = computed(() => {
         return organiser.value.username;
+    })
+}
+
+function subscribe() {
+    fetch(backendApiBaseUrl + '/events/' + code.value, {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',  
+            'Authorization': loggedUser.getToken
+        }
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        if (data.success) {
+            alert(data.message);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
     })
 }
 

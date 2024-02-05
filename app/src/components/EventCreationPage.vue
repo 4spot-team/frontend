@@ -13,7 +13,7 @@
             </div>
             <div class="input-field">
                 <p class="field-name">Location:</p>
-                <input @change="updateLocation" v-model="locationString" class="filling-field" placeholder="Location" required>
+                <input v-model="locationString" class="filling-field" placeholder="Location" required>
             </div>
             <div class="input-field">
                 <p class="field-name">Data:</p>
@@ -113,7 +113,6 @@ const imageTitle = ref('');
 // Main refs and computed to send to backend
 const title = ref('');
 const description = ref('');
-const location = ref({lat: 0, lon: 0});    // Coordinates
 const date = computed(() => {   // Timestamp
     const dateList = dateString.value.split('/');
     const year = dateList[0];
@@ -162,7 +161,7 @@ function checkCreatedEvent() {
     if (
         title.value !== '' &&
         /* typologies.value.length !== 0 && */  // Later
-        (location.value.lat !== 0 && location.value.lon !== 0) &&
+        locationString.value !== '' &&
         date.value !== 0 &&
         image.value !== ''
     ) {
@@ -172,7 +171,7 @@ function checkCreatedEvent() {
 
 function createEvent() {
     fetch(backendApiBaseUrl + '/addevent', {
-        method: 'GET',
+        method: 'POST',
         headers: { 
             'Content-Type': 'application/json',  
             'Authorization': loggedUser.getToken
@@ -180,7 +179,7 @@ function createEvent() {
         body: JSON.stringify({
             title: title,
             types: typologies,
-            location: location,
+            location: locationString,
             date: date.value.getTime()/1000,
             noUnderage: noUnderage,
             hasQR: false,
@@ -202,41 +201,6 @@ function createEvent() {
     .catch((err) => {
         console.log(err);
     })
-}
-
-function updateLocation() {
-    if (locationString.value !== '') {
-        // Use Nominatim
-        fetch(
-            'https://nominatim.openstreetmap.org/search?q=' + 
-            locationString.value +
-            '&format=json&addressdetails=1&limit=1&polygon_svg=1', 
-            {
-                method: 'GET'
-        })
-        .then((res) => res.json())
-        .then((dataList) => {
-            const data = dataList[0];
-            console.log('Data: ' + data);
-            if (data.lat !== undefined && data.lon !== undefined) {
-                location.value.lat = parseFloat(data.lat)
-                location.value.lon = parseFloat(data.lon);
-
-                console.log('Lat: ' + location.value.lat);
-                console.log('Lon: ' + location.value.lon);
-            }
-            else {
-                location.value.lat = location.value.lon = 0;
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            location.value.lat = location.value.lon = 0;
-        })
-    }
-    else {
-        return (0, 0);
-    }
 }
 
 // Limit date

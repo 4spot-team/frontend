@@ -14,6 +14,7 @@
                                     :key="event.value.code"
                                     :use-props="true"
                                     :creation-process="false"
+                                    :code-prop="event.value.code"
                                     :title-prop="event.value.title"
                                     :image-prop="event.value.image"
                                     :organiser-prop="event.value.organiser"
@@ -22,7 +23,8 @@
                                     :price-prop="event.value.price"
                                     :hashtags-prop="event.value.hashtags"
                                     :descrption-prop="event.value.description"
-                                    @show-comments-window="toggleCommentsWindow"
+                                    :coments-prop="event.value.comments"
+                                    @show-comments-window="toggleCommentsWindow(event)"
                                 />
                             </div>
                         </div>
@@ -39,6 +41,7 @@
                 <CommentsWindow 
                     v-if="commentWindowActive"
                     ref="target"
+                    :coments="viewedEvent.value.comments"
                 />
             </div>
         </div>
@@ -64,7 +67,6 @@
     
     const router = useRouter();
 
-    //const filter = ref('');
     const events = ref([]);
     const loggedUser = useLoggedUser();
 
@@ -73,12 +75,13 @@
 
     // For comment window
     const commentWindowActive = ref(false);
+    const viewedEvent = ref(null);
 
     // Click outside comment window
     const target = ref(null);
     onClickOutside(target, () => toggleCommentsWindow());
 
-    /// DEBUG ///
+    /// TEST ///
     // Example Event
     const exampleOrganizer = {
         username: 'comunedirovereto'
@@ -144,13 +147,15 @@
     });
 
     // Toggle comments window
-    function toggleCommentsWindow() {
+    function toggleCommentsWindow(event) {
         if (commentWindowActive.value) {    // Hide
+            viewedEvent.value = null;
             commentWindowActive.value = false;
             document.getElementById('events-list-container').style.overflowY = 'scroll';
             document.getElementById('home').style.filter = 'brightness(1)';
         }
         else {  // Show
+            viewedEvent.value = event;
             commentWindowActive.value = true;
             document.getElementById('events-list-container').style.overflowY = 'hidden';
             document.getElementById('home').style.filter = 'brightness(0.7)';
@@ -169,7 +174,6 @@
     height: 100%;
     
     padding: 0 0;
-    /* overflow-y: scroll; */
 }
 
 #events-list-container

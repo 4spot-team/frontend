@@ -109,10 +109,14 @@
 import { ref, onMounted } from 'vue';
 
 import { urlToBase64 } from '@/middlewares/imagesHandling';
+import { backendApiBaseUrl } from '@/states/backendInfo';
+import { useLoggedUser } from '@/states/loggedUser';
 
 import ContainerHeader from './ContainerHeader.vue';
 import ContainerNavlist from './ContainerNavlist.vue';
 import ReducedEvent from './ReducedEvent.vue';
+
+const loggedUser = useLoggedUser();
 
 const yourEvents = ref([]);
 const organizedEvents = ref([]);
@@ -142,6 +146,24 @@ onMounted(() => {
         })
 
     /////////////
+
+    // GET user page
+    fetch(backendApiBaseUrl + '/users/' + loggedUser.username, {
+        method: 'GET',
+        headers: { 
+            'Content-Type': 'application/json',  
+            'Authorization': loggedUser.getToken
+        }  
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        if (data.success) { // Gets only events organized by logged user yet
+            yourEvents.value = data.events;
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 
     console.log('Do something')
 });
