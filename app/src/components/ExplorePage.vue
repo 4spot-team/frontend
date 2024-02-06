@@ -23,8 +23,8 @@
                         <!-- Events -->
                         <l-marker class="event-marker"
                             v-for="event in events"
-                            :key="event.coordinates"
-                            :lat-lng="event.coordinates"
+                            :key="event.code"
+                            :lat-lng="event.location.coordinates"
                             :icon="getMarkerIcon(event)"
                             @click="zoomOnEvent(event)"
                         >
@@ -107,10 +107,10 @@ const userIcon = L.icon({
 
 // Zoom in on marker click
 async function zoomOnEvent(event) {
-    console.log(event.coordinates);
+    console.log(event.location.coordinates);
     center.value = {
-        lat: event.coordinates[0],
-        lng: event.coordinates[1]
+        lat: event.location.coordinates[0],
+        lng: event.location.coordinates[1]
     }
     zoom.value = 12;
 }
@@ -122,7 +122,7 @@ function getEvents() {
     console.log('LMap: ' + JSON.stringify(map.value.center)); */
 
     /* console.log(coordinatesIntervals.value); // TEST */
-    fetch(backendApiBaseUrl + '/map', {  // DA VEDERE 
+    fetch(backendApiBaseUrl + '/map', {   
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',  
@@ -134,6 +134,7 @@ function getEvents() {
     .then((data) => {
         if (data.success) {
             events.value = data.events;
+            console.log('Eventi: ' + JSON.stringify(events.value[0]));
         }
     })
     .catch((err) => {

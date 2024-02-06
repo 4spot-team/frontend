@@ -184,8 +184,6 @@ onMounted(() => {
     .catch((err) => {
         console.log(err);
     })
-
-    console.log('Do something')
 });
 </script>
 

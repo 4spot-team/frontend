@@ -90,11 +90,14 @@
                 <p v-if="noComments"> 
                     Non ci sono ancora commenti a questo evento 
                 </p>    
-                <!-- TODO: Insert coments -->
+                <p v-for="comment in comments" :key="comment._id"> 
+                    {{ comment.text }}
+                </p>
+
             </div>
 
             <div id="comments-input-div">   
-                <input class="comment-input" placeholder="Lascia un commento">
+                <input v-model="commentInput" @keyup.enter="leaveComment" class="comment-input" placeholder="Lascia un commento">
             </div>
         </div>
 
@@ -126,6 +129,7 @@ const route = useRoute();
 const loggedUser = useLoggedUser();
 
 const noComments = ref(true);
+const commentInput = ref('');
 
 // Only for init
 const fakeOrganiz = {
@@ -220,7 +224,10 @@ function subscribe() {
             headers: { 
                 'Content-Type': 'application/json',  
                 'Authorization': loggedUser.getToken
-            }
+            },
+            body: JSON.stringify({
+                subscribe: true
+            })
         })
         .then((res) => res.json())
         .then((data) => {
@@ -233,6 +240,29 @@ function subscribe() {
         })
     }
 }
+
+function leaveComment() {
+    fetch(backendApiBaseUrl + '/events/' + encodeURIComponent(code.value), {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',  
+            'Authorization': loggedUser.getToken
+        },
+        body: JSON.stringify({
+            comment: commentInput.value
+        })
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        if (data.success) {
+            alert(data.message);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+
 
 onMounted(() => {
     refresh();

@@ -215,6 +215,10 @@ function checkCreatedEvent() {
 }
 
 function createEvent() {
+    if (price.value.amount === undefined) {
+        price.value.amount = 0;
+    }
+    
     fetch(backendApiBaseUrl + '/addevent', {
         method: 'POST',
         headers: { 
