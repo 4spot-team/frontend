@@ -19,7 +19,7 @@ export const useLoggedUser = defineStore('user', {
     },
     actions: {
         isAuthenticated() {
-            return (this.token !== '');
+            return (typeof this.token === 'string' && this.token !== '');
         },
         setUsername(username) {
             this.username = username;

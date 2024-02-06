@@ -58,6 +58,7 @@ app.mount('#app');
 const loggedUser = useLoggedUser();
 
 router.beforeEach((to) => {
+    console.log('Logged user: ' + loggedUser.getToken);
     if (to.meta.requiresAuth && !loggedUser.isAuthenticated()) {
         return {
             path: '/login',
